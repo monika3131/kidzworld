@@ -47,7 +47,6 @@ function getItemPrice(item) {
             return 7.29;
         case "book6":
             return 4.99;
-        // Add cases for other items if needed
         default:
             return 0;
     }
