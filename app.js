@@ -1,10 +1,7 @@
-// Define a function to handle clicking on "Add to cart" button
 function addToCart(item) {
-    // Update cart items count
     let cartValueElement = document.getElementById("cart-value");
     cartValueElement.textContent = parseInt(cartValueElement.textContent) + 1;
 
-    // Update cart details in localStorage
     let cartItems = localStorage.getItem("cartItems");
     if (cartItems) {
         cartItems = JSON.parse(cartItems);
@@ -12,7 +9,6 @@ function addToCart(item) {
         cartItems = {};
     }
 
-    // Increment quantity if item already exists in cart
     if (cartItems[item]) {
         cartItems[item]++;
     } else {
@@ -22,7 +18,6 @@ function addToCart(item) {
     localStorage.setItem("cartItems", JSON.stringify(cartItems));
 }
 
-// Define a function to handle clicking on "Cart items" button
 function displayCart() {
     let cartItems = localStorage.getItem("cartItems");
     if (cartItems) {
@@ -31,8 +26,6 @@ function displayCart() {
         console.log("Order details:");
         for (let item in cartItems) {
             console.log(`${item}: ${cartItems[item]}`);
-            // Calculate total amount
-            // This part may need to be adjusted based on your actual implementation
             totalAmount += getItemPrice(item) * cartItems[item];
         }
         console.log(`Total amount: $${totalAmount.toFixed(2)}`);
@@ -40,8 +33,6 @@ function displayCart() {
         console.log("Cart is empty");
     }
 }
-
-// Define a function to get the price of an item
 function getItemPrice(item) {
     switch (item) {
         case "book1":
@@ -61,14 +52,10 @@ function getItemPrice(item) {
             return 0;
     }
 }
-
-// Add event listeners to "Add to cart" buttons
 document.querySelectorAll(".button").forEach(button => {
     button.addEventListener("click", () => {
         let itemId = button.id;
         addToCart(itemId);
     });
 });
-
-// Add event listener to "Cart items" button
 document.getElementById("cart").addEventListener("click", displayCart);
