@@ -28,8 +28,12 @@ function displayCart() {
             console.log(`${item}: ${cartItems[item]}`);
             let itemPrice = getItemPrice(item);
             totalAmount += itemPrice * cartItems[item];
-        }
-        console.log(`Total amount: $${totalAmount.toFixed(2)}`);
+         }
+        orderDetails += `Total amount: $${totalAmount.toFixed(2)}`;
+
+        let encodedDetails = encodeURIComponent(orderDetails);
+        let whatsappURL = `https://web.whatsapp.com/send?text=${encodedDetails}`;
+        window.open(whatsappURL, '_blank');
     } else {
         console.log("Cart is empty");
     }
