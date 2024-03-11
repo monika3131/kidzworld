@@ -120,7 +120,7 @@ function updatePrice() {
   finalCents = totalPriceInCents % 100;
 }
 // Whatsapp integration
-var whatsappLink = "https://api.whatsapp.com/send?phone=8668406665&text=Order%20detail"
+var whatsappLink = "https://api.whatsapp.com/send?phone=9718268346&text=Order%20detail"
 
 // %20 is for space
 
