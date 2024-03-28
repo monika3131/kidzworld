@@ -5,6 +5,19 @@ var addButtonElements = document.getElementsByClassName("button");
 
 var products = [
   {
+    name: "Stuffed toys",
+    quantity: 0,
+    dollars: 15,
+    cents: 99,
+  },
+  {
+    name: "Monopoly",
+    quantity: 0,
+    dollars: 19,
+    cents: 49,
+  },
+  // Other product items...
+  {
     name: "This was our pact",
     quantity: 0,
     dollars: 7,
@@ -15,8 +28,7 @@ var products = [
     quantity: 0,
     dollars: 4,
     cents: 59,
-  },
-  // Other product items...
+  }
 ];
 
 function updateCartValue() {
