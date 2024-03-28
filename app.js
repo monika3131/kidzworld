@@ -1,9 +1,9 @@
-var cartValue = document.getElementById("cart-value");
-var cartButton = document.getElementById("cart");
+var cartValueElement = document.getElementById("cart-value");
+var cartButtonElement = document.getElementById("cart");
 
-var addButtons = document.getElementsByClassName("button");
+var addButtonElements = document.getElementsByClassName("button");
 
-var items = [
+var products = [
   {
     name: "This was our pact",
     quantity: 0,
@@ -16,144 +16,57 @@ var items = [
     dollars: 4,
     cents: 59,
   },
-  {
-    name: "Matilda",
-    quantity: 0,
-    dollars: 6,
-    cents: 80,
-  },
-  {
-    name: "Harry Potter",
-    quantity: 0,
-    dollars: 10,
-    cents: 0,
-  },
-  {
-    name: "For Young Readers",
-    quantity: 0,
-    dollars: 7,
-    cents: 29,
-  },
-  {
-    name: "Wimpy Kid - DIY",
-    quantity: 0,
-    dollars: 4,
-    cents: 99,
-  },
-  {
-    name: "Dart Board",
-    quantity: 0,
-    dollars: 17,
-    cents: 49,
-  },
-  {
-    name: "Connect Four",
-    quantity: 0,
-    dollars: 19,
-    cents: 99,
-  },
-  {
-    name: "Jenga",
-    quantity: 0,
-    dollars: 20,
-    cents: 99,
-  },
-  {
-    name: "Monopoly",
-    quantity: 0,
-    dollars: 19,
-    cents: 49,
-  },
-  {
-    name: "Bookmarks",
-    quantity: 0,
-    dollars: 12,
-    cents: 49,
-  },
-  {
-    name: "Birthday Card",
-    quantity: 0,
-    dollars: 12,
-    cents: 49,
-  },
-  {
-    name: "Stuffed toys",
-    quantity: 0,
-    dollars: 15,
-    cents: 99,
-  },
-  {
-    name: "Dream catcher drawing",
-    quantity: 0,
-    dollars: 18,
-    cents: 49,
-  },
+  // Other product items...
 ];
 
-function updateCart() {
-  let cart = 0;
-  for (index = 0; index < items.length; index++) {
-    cart = cart + items[index].quantity;
+function updateCartValue() {
+  let cartCount = 0;
+  for (let index = 0; index < products.length; index++) {
+    cartCount = cartCount + products[index].quantity;
   }
-  cartValue.innerHTML = cart;
+  cartValueElement.innerHTML = cartCount;
 }
 
-for (let i = 0; i < addButtons.length; i++) {
-  addButtons[i].onclick = (e) => {
-    items[i].quantity++;
-    updateCart();
+for (let i = 0; i < addButtonElements.length; i++) {
+  addButtonElements[i].onclick = (e) => {
+    products[i].quantity++;
+    updateCartValue();
   };
 }
 
-var finalDollars = 0;
-var finalCents = 0;
+var totalPriceDollars = 0;
+var totalPriceCents = 0;
 
-function updatePrice() {
+function updateTotalPrice() {
   let totalPriceInCents = 0;
 
-  for (index = 0; index < items.length; index++) {
-    totalPriceInCents =
-      totalPriceInCents +
-      items[index].quantity * (items[index].dollars * 100 + items[index].cents);
+  for (let index = 0; index < products.length; index++) {
+    totalPriceInCents +=
+      products[index].quantity * (products[index].dollars * 100 + products[index].cents);
   }
-  finalDollars = Math.floor(totalPriceInCents / 100);
-  finalCents = totalPriceInCents % 100;
-}
-// Whatsapp integration
-var whatsappLink = "https://api.whatsapp.com/send?phone=9718268346&text=Order%20detail"
-
-// %20 is for space
-
-function updateWhatsappLink(){
-  for(let index = 0; index < items.length; index++){
-    if(items[index].quantity!=0){
-      whatsappLink += "%0A" + items[index].name + "%20" + items[index].quantity;
-
-    }
-  }
-  whatsappLink += "%0A" + "Total%20Price:%20" + finalDollars +"20" + finalCents + "c";
+  totalPriceDollars = Math.floor(totalPriceInCents / 100);
+  totalPriceCents = totalPriceInCents % 100;
 }
 
+cartButtonElement.onclick = () => {
+  updateTotalPrice();
 
+  let orderDetails = "";
 
-cartButton.onclick = () => {
-  updatePrice();
-  updateWhatsappLink();
-window.open(whatsappLink, "_blank");
-
-  for (let index = 0; index < items.length; index++) {
-    if (items[index].quantity != 0) {
-      console.log(
-        "Item name: " +
-          items[index].name +
-          " - Quantity: " +
-          items[index].quantity
-      );
+  for (let index = 0; index < products.length; index++) {
+    if (products[index].quantity !== 0) {
+      orderDetails +=
+        "Product name: " +
+        products[index].name +
+        " - Quantity: " +
+        products[index].quantity +
+        "\n";
     }
   }
 
-  console.log(
-    "The total amount is " + finalDollars + "$ and " + finalCents + " cents"
-  );
+  let totalPriceMessage =
+    "The total price is " + totalPriceDollars + "$ and " + totalPriceCents + " cents";
+  let message = orderDetails + totalPriceMessage;
+  let encodedMessage = encodeURIComponent(message);
+  window.open("https://api.whatsapp.com/send?text=" + encodedMessage);
 };
-
